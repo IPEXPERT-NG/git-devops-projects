@@ -44,7 +44,7 @@ jobs:
           path: |
             dist/
             build/
-            package*.json
+            'package*.json'
           if-no-files-found: ignore
 
   deploy:
