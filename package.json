@@ -1,0 +1,7 @@
+{
+  "name": "git-devops-projects",
+  "version": "1.0.0",
+  "description": "Git-DevOps",
+  "private": false,
+  "type": "commonjs"
+}
