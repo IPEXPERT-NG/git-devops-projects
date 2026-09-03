@@ -34,7 +34,25 @@ jobs:
         uses: github/codeql-action/analyze@v3
         if: hashFiles('npm-test/**/*.{js,ts,jsx,tsx}') != ''
 
+      - name: Detect tests
+        id: detect-tests
+        run: |
+          set -e
+          HAS_TESTS=false
+          # Check for common test file patterns or __tests__ folder
+          if compgen -G "npm-test/**/*.test.js" > /dev/null || compgen -G "npm-test/**/*.test.ts" > /dev/null || [ -d "npm-test/__tests__" ]; then
+            HAS_TESTS=true
+          else
+            # Check package.json test script; treat the default "No tests specified" as no-tests
+            TEST_SCRIPT=$(node -e "console.log(require('./npm-test/package.json').scripts && require('./npm-test/package.json').scripts.test || '')")
+            if [ -n "$TEST_SCRIPT" ] && ! echo "$TEST_SCRIPT" | grep -q "No tests specified"; then
+              HAS_TESTS=true
+            fi
+          fi
+          echo "has-tests=$HAS_TESTS" >> $GITHUB_OUTPUT
+
       - name: Run Tests
+        if: steps.detect-tests.outputs.has-tests == 'true'
         run: cd npm-test && npm test
 
       - name: Upload build artifacts
