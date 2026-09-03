@@ -24,16 +24,16 @@ jobs:
           languages: javascript
 
       - name: Install dependencies
-        run: npm install # Changed from npm ci to allow installation without package-lock.json
+        run: cd npm-test && npm install
 
       - name: Build project
-        run: npm run build --if-present
+        run: cd npm-test && npm run build --if-present
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
 
       - name: Run Tests
-        run: npm test
+        run: cd npm-test && npm test
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
