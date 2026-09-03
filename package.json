@@ -2,6 +2,11 @@
   "name": "git-devops-projects",
   "version": "1.0.0",
   "description": "Git-DevOps",
+  "main": "index.js",
+  "type": "commonjs",
   "private": false,
-  "type": "commonjs"
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
